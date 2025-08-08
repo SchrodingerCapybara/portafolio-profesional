@@ -1,0 +1,84 @@
+{
+    "nav": {
+        "about": "Sobre mí",
+        "skills": "Habilidades",
+        "projects": "Proyectos",
+        "contact": "Contacto"
+    },
+    "hero": {
+        "greeting": "¡Hola! Soy",
+        "role": "Desarrollador Full Stack",
+        "location": "basado en Costa Rica",
+        "slogan": "Diseño con lógica, desarrollo con pasión.",
+        "description": "Apasionado por crear experiencias web únicas y funcionales. Me especializo en desarrollo frontend y backend, siempre buscando aprender nuevas tecnologías y mejorar mis habilidades.",
+        "cta": "Ver Proyectos",
+        "contact": "Contactar",
+        "stats": {
+            "learnTitle": "Enfocado en aprender",
+            "learnSubtitle": "Mejorando mis habilidades cada día",
+            "educationTitle": "Ingeniería de Software",
+            "educationSubtitle": "Universidad Cenfotec",
+            "projectsTitle": "Proyectos académicos",
+            "projectsSubtitle": "Aplicaciones y ejercicios prácticos"
+        }
+    },
+    "about": {
+        "title": "Sobre Mí",
+        "subtitle": "Un poco <span class='highlight'>sobre mí</span>",
+        "description": "Mi nombre es Diego. Soy un profesional apasionado por el desarrollo de software, comprometido con la mejora continua y la creatividad digital. Desde joven he estado fascinado por la tecnología y cómo puede resolver problemas reales. Me considero curioso, autodidacta y siempre dispuesto a aprender algo nuevo. Busco constantemente maneras de combinar diseño y funcionalidad para crear experiencias web intuitivas.",
+        "stats": {
+            "projects": "Proyectos completados",
+            "technologies": "Tecnologías aprendidas",
+            "commitment": "Compromiso"
+        }
+    },
+    "skills": {
+        "title": "Habilidades",
+        "description": "Domino un amplio espectro de tecnologías modernas, desde el desarrollo frontend hasta el backend, pasando por bases de datos y herramientas de deployment. Mi enfoque se centra en crear soluciones escalables y mantenibles.",
+        "categories": {
+            "frontend": "Frontend",
+            "backend": "Backend",
+            "database": "Base de Datos",
+            "devops": "DevOps & Herramientas"
+        }
+    },
+    "projects": {
+        "title": "Proyectos",
+        "description": "Aquí puedes explorar algunos de mis proyectos más recientes. Cada uno representa un desafío superado y una oportunidad para aplicar y expandir mis habilidades en diferentes tecnologías y dominios.",
+        "demo": "Demo",
+        "repo": "Repositorio",
+        "viewProject": "Ver Proyecto",
+        "project": "Proyecto"
+    },
+    "contact": {
+        "title": "Contacto",
+        "description": "¿Tienes un proyecto en mente o quieres colaborar? ¡Me encantaría escuchar de ti! Estoy siempre abierto a nuevas oportunidades y desafíos interesantes.",
+        "connect": "Conectemos",
+        "connectDescription": "Elige el método que prefieras para ponerte en contacto. Respondo rápidamente y estoy disponible para proyectos freelance, colaboraciones y oportunidades laborales.",
+        "form": {
+            "title": "Envíame un mensaje",
+            "name": "Nombre",
+            "email": "Email",
+            "message": "Mensaje",
+            "send": "Enviar mensaje",
+            "success": "¡Mensaje enviado con éxito!",
+            "error": "Hubo un error al enviar el mensaje."
+        },
+        "downloadCV": "Descargar CV"
+    },
+    "footer": {
+        "name": "Diego Hidalgo",
+        "rights": "Todos los derechos reservados",
+        "builtWith": "Hecho con"
+    },
+    "common": {
+        "loading": "Cargando...",
+        "error": "Error",
+        "success": "Éxito",
+        "close": "Cerrar",
+        "open": "Abrir",
+        "back": "Volver",
+        "next": "Siguiente",
+        "previous": "Anterior"
+    }
+}
