@@ -1,0 +1,10 @@
+/* Main CSS File - Modular Architecture */
+@import "./variables.css";
+@import "./base.css";
+@import "./components.css";
+@import "./sections.css";
+@import "./skills.css";
+@import "./projects.css";
+@import "./contact.css";
+@import "./responsive.css";
+@import "./utilities.css";

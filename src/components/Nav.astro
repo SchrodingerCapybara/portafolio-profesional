@@ -1,0 +1,43 @@
+---
+// Navigation component
+---
+
+<header role="banner">
+    <div class="container">
+        <nav class="nav" role="navigation" aria-label="Navegación principal">
+            <!-- Logo -->
+            <div class="logo">
+                <img src="assets/logo.svg?v=20241208-4" alt="Logo" class="logo-image" />
+            </div>
+
+            <!-- Desktop Navigation -->
+            <ul class="nav-links desktop-nav-links" role="menubar">
+                <li role="none"><a href="#about" data-i18n="nav.about" role="menuitem">Sobre mí</a></li>
+                <li role="none"><a href="#skills" data-i18n="nav.skills" role="menuitem">Habilidades</a></li>
+                <li role="none"><a href="#projects" data-i18n="nav.projects" role="menuitem">Proyectos</a></li>
+                <li role="none"><a href="#contact" data-i18n="nav.contact" role="menuitem">Contacto</a></li>
+            </ul>
+
+            <!-- Mobile Navigation -->
+            <details class="mobile-menu">
+                <summary class="mobile-menu-toggle" aria-label="Abrir menú de navegación">
+                    <span class="hamburger-icon">☰</span>
+                </summary>
+                <div class="mobile-menu-content">
+                    <ul class="nav-links mobile-nav-links" role="menubar">
+                        <li role="none"><a href="#about" data-i18n="nav.about" role="menuitem">Sobre mí</a></li>
+                        <li role="none"><a href="#skills" data-i18n="nav.skills" role="menuitem">Habilidades</a></li>
+                        <li role="none"><a href="#projects" data-i18n="nav.projects" role="menuitem">Proyectos</a></li>
+                        <li role="none"><a href="#contact" data-i18n="nav.contact" role="menuitem">Contacto</a></li>
+                    </ul>
+                </div>
+            </details>
+
+            <!-- Language Switcher -->
+            <div class="lang-switch" role="group" aria-label="Selector de idioma">
+                <button class="lang-btn active" data-lang="es" aria-label="Español" aria-pressed="true">ES</button>
+                <button class="lang-btn" data-lang="en" aria-label="English" aria-pressed="false">EN</button>
+            </div>
+        </nav>
+    </div>
+</header>

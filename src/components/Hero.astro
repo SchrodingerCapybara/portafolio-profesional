@@ -1,0 +1,75 @@
+---
+// Hero component
+---
+
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>
+                    <span class="hero-greeting" data-i18n="hero.greeting">¡Hola! Soy</span>
+                    <br />
+                    <span class="hero-name" id="hero-name">Diego</span>
+                </h1>
+                <div class="hero-subtitle">
+                    <span class="hero-role" data-i18n="hero.role">Desarrollador Full Stack</span>
+                    <br />
+                    <span class="hero-location" data-i18n="hero.location">basado en Costa Rica</span>
+                </div>
+                <p class="hero-slogan" data-i18n="hero.slogan">Diseño con lógica, desarrollo con pasión.</p>
+                <p class="hero-description" data-i18n="hero.description">
+                    Apasionado por crear experiencias web únicas y funcionales. Me especializo en desarrollo frontend y backend, siempre buscando aprender
+                    nuevas tecnologías y mejorar mis habilidades.
+                </p>
+                <div class="hero-actions">
+                    <div class="hero-buttons">
+                        <a href="#projects" class="btn btn-primary">
+                            <span data-i18n="hero.cta">Ver Proyectos</span>
+                        </a>
+                        <a href="#contact" class="btn btn-secondary">
+                            <span data-i18n="hero.contact">Contactar</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-actions">
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="stat-icon">🎯</span>
+                        <span class="stat-title" data-i18n="hero.stats.learnTitle">Enfocado en aprender</span>
+                        <span class="stat-label" data-i18n="hero.stats.learnSubtitle">Mejorando mis habilidades cada día</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="stat-icon">📚</span>
+                        <span class="stat-title" data-i18n="hero.stats.educationTitle">Ingeniería de Software</span>
+                        <span class="stat-label" data-i18n="hero.stats.educationSubtitle">Universidad Cenfotec</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="stat-icon">💡</span>
+                        <span class="stat-title" data-i18n="hero.stats.projectsTitle">Proyectos académicos</span>
+                        <span class="stat-label" data-i18n="hero.stats.projectsSubtitle">Aplicaciones y ejercicios prácticos</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Update hero name from site data (production-safe path)
+    document.addEventListener("DOMContentLoaded", async () => {
+        try {
+            const response = await fetch("/site.json");
+            if (!response.ok) throw new Error("Failed to load site data");
+            const data = await response.json();
+
+            const heroName = document.getElementById("hero-name");
+            if (heroName && data.name) {
+                heroName.textContent = data.name;
+            }
+        } catch (error) {
+            console.error("Error loading site data for hero:", error);
+        }
+    });
+</script>

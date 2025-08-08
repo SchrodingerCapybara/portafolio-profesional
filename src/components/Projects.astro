@@ -1,0 +1,67 @@
+---
+import { getCollection } from "astro:content";
+
+// Get all projects from the collection
+const projects = await getCollection("projects");
+---
+
+<section id="projects" class="projects" aria-labelledby="projects-title">
+    <div class="container">
+        <h2 id="projects-title" class="section-title" data-i18n="projects.title">Proyectos</h2>
+
+        <div class="projects-intro">
+            <p class="projects-description" data-i18n="projects.description"></p>
+        </div>
+
+        <div class="projects-grid" role="list">
+            {
+                projects.map((project) => (
+                    <article class="project-card card" role="listitem">
+                        {project.data.image && (
+                            <div class="project-image-container">
+                                <img src={project.data.image} alt={project.data.title} class="project-image" loading="lazy" />
+                                <div class="project-overlay">
+                                    <div class="project-overlay-content">
+                                        <span class="project-overlay-text" data-i18n="projects.viewProject">
+                                            Ver Proyecto
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3 class="project-title gradient-text">{project.data.title}</h3>
+                                <div class="project-badge">
+                                    <span class="project-badge-text" data-i18n="projects.project">
+                                        Proyecto
+                                    </span>
+                                </div>
+                            </div>
+                            <p class="project-summary">{project.data.summary}</p>
+                            <div class="project-tech" role="list" aria-label="Tecnologías utilizadas">
+                                {project.data.tech.map((tech) => (
+                                    <span class="tech-tag" role="listitem">
+                                        {tech}
+                                    </span>
+                                ))}
+                            </div>
+                            <div class="project-buttons">
+                                {project.data.url && (
+                                    <a href={project.data.url} target="_blank" rel="noopener noreferrer" class="btn btn-primary" data-i18n="projects.demo">
+                                        Demo
+                                    </a>
+                                )}
+                                {project.data.repo && (
+                                    <a href={project.data.repo} target="_blank" rel="noopener noreferrer" class="btn btn-secondary" data-i18n="projects.repo">
+                                        Repositorio
+                                    </a>
+                                )}
+                            </div>
+                        </div>
+                    </article>
+                ))
+            }
+        </div>
+    </div>
+</section>

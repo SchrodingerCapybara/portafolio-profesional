@@ -1,0 +1,27 @@
+---
+// Footer component
+const currentYear = new Date().getFullYear();
+---
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-info">
+                <p class="footer-copyright">
+                    &copy; {currentYear}
+                    <span data-i18n="footer.name">Diego Hidalgo</span>.
+                    <span data-i18n="footer.rights">Todos los derechos reservados</span>
+                </p>
+            </div>
+            <div class="footer-built">
+                <p class="footer-built-text">
+                    <span data-i18n="footer.builtWith">Hecho con</span>
+                    <a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="footer-astro-link" aria-label="Astro - Framework web">
+                        <span class="footer-astro-icon" aria-hidden="true">🚀</span>
+                        <span class="footer-astro-text">Astro</span>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>

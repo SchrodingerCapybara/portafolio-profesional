@@ -1,0 +1,158 @@
+---
+import "../styles/global.css";
+
+export interface Props {
+    title: string;
+    description?: string;
+}
+
+const { title, description = "Portfolio personal desarrollado con Astro" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta name="author" content="Diego Hidalgo" />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    </head>
+    <body>
+        <slot />
+
+        <!-- WhatsApp Floating Button -->
+        <a
+            href="https://wa.me/34600000000"
+            id="whatsappButton"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="whatsapp-float"
+            aria-label="Contactar por WhatsApp"><span class="icon icon--whatsapp" aria-hidden="true"></span></a
+        >
+
+        <!-- Scroll to Top Button -->
+        <button class="scroll-top" id="scrollTop" aria-label="Volver arriba"> ↑ </button>
+
+        <script>
+            // @ts-nocheck
+            async function loadSiteData() {
+                try {
+                    const response = await fetch("/site.json");
+                    if (!response.ok) throw new Error("Failed to load site data");
+                    return await response.json();
+                } catch (error) {
+                    console.error("Error loading site data:", error);
+                    return null;
+                }
+            }
+
+            let currentLang = localStorage.getItem("lang") || "es";
+            async function loadTranslations(lang) {
+                try {
+                    const response = await fetch(`/i18n/${lang}.json`);
+                    if (!response.ok) throw new Error("Failed to load translations");
+                    const data = await response.json();
+
+                    document.querySelectorAll("[data-i18n]").forEach((element) => {
+                        const key = element.getAttribute("data-i18n");
+                        if (!key) return;
+                        const parts = key.split(".");
+                        let value = data;
+                        for (const p of parts) value = value?.[p];
+                        if (typeof value === "string") {
+                            if (value.includes("<") && value.includes(">")) {
+                                element.innerHTML = value;
+                            } else {
+                                element.textContent = value;
+                            }
+                        }
+                    });
+
+                    document.querySelectorAll(".lang-btn").forEach((btn) => {
+                        btn.classList.remove("active");
+                        if (btn.getAttribute("data-lang") === lang) btn.classList.add("active");
+                    });
+
+                    localStorage.setItem("lang", lang);
+                    currentLang = lang;
+                } catch (error) {
+                    console.error("Error loading translations:", error);
+                }
+            }
+
+            document.addEventListener("DOMContentLoaded", async () => {
+                const siteData = await loadSiteData();
+                if (siteData?.whatsapp) {
+                    const w = document.getElementById("whatsappButton");
+                    if (w) w.href = `https://wa.me/${String(siteData.whatsapp).replace("+", "")}`;
+                }
+
+                await loadTranslations(currentLang);
+                document.querySelectorAll(".lang-btn").forEach((btn) => {
+                    btn.addEventListener(
+                        "click",
+                        (e) => {
+                            const lang = e.currentTarget?.getAttribute("data-lang");
+                            if (lang) loadTranslations(lang);
+                        },
+                        { passive: true }
+                    );
+                });
+
+                const mobileMenu = document.querySelector(".mobile-menu");
+                const mobileToggle = document.querySelector(".mobile-menu-toggle");
+                if (mobileMenu && mobileToggle) {
+                    document.addEventListener(
+                        "click",
+                        (e) => {
+                            const t = e.target;
+                            if (!t) return;
+                            if (mobileMenu.contains(t)) return;
+                            if (mobileMenu.open) mobileMenu.removeAttribute("open");
+                        },
+                        { passive: true }
+                    );
+                    document.addEventListener("keydown", (e) => {
+                        if (e.key === "Escape" && mobileMenu.open) {
+                            mobileMenu.removeAttribute("open");
+                        }
+                    });
+                    mobileMenu.addEventListener("click", (e) => e.stopPropagation());
+                }
+
+                const scrollTopButton = document.getElementById("scrollTop");
+                if (scrollTopButton) {
+                    let ticking = false;
+                    window.addEventListener(
+                        "scroll",
+                        () => {
+                            if (!ticking) {
+                                window.requestAnimationFrame(() => {
+                                    window.scrollY > 400 ? scrollTopButton.classList.add("show") : scrollTopButton.classList.remove("show");
+                                    ticking = false;
+                                });
+                                ticking = true;
+                            }
+                        },
+                        { passive: true }
+                    );
+                    scrollTopButton.addEventListener("click", () => {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>

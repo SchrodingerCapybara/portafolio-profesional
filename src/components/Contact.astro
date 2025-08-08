@@ -1,0 +1,213 @@
+---
+// Contact component
+---
+
+<section id="contact" class="contact">
+    <div class="container">
+        <h2 class="section-title" data-i18n="contact.title">Contacto</h2>
+        <div class="contact-content">
+            <div class="contact-intro">
+                <p class="contact-description" data-i18n="contact.description">
+                    ¿Tienes un proyecto en mente o quieres colaborar? ¡Me encantaría escuchar de ti! Estoy siempre abierto a nuevas oportunidades y desafíos
+                    interesantes.
+                </p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <h3 class="contact-card-title" data-i18n="contact.connect">Conectemos</h3>
+                        <p class="contact-card-description" data-i18n="contact.connectDescription">
+                            Elige el método que prefieras para ponerte en contacto. Respondo rápidamente y estoy disponible para proyectos freelance,
+                            colaboraciones y oportunidades laborales.
+                        </p>
+                        <div class="contact-buttons">
+                            <a href="https://wa.me/34600000000" id="whatsappContact" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                                <span class="icon icon--whatsapp" aria-hidden="true"></span>
+                                <span>WhatsApp</span>
+                            </a>
+                            <a
+                                href="https://linkedin.com/in/tu-usuario"
+                                id="linkedinContact"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="btn btn-secondary">
+                                <span class="icon icon--linkedin" aria-hidden="true"></span>
+                                <span>LinkedIn</span>
+                            </a>
+                            <a href="https://github.com/tu-usuario" id="githubContact" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                                <span class="icon icon--github" aria-hidden="true"></span>
+                                <span>GitHub</span>
+                            </a>
+                            <a href="cv.pdf" download class="btn btn-primary" data-i18n="contact.downloadCV"> Descargar CV </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form-container">
+                    <div class="contact-form-card">
+                        <h3 class="contact-form-title" data-i18n="contact.form.title">Envíame un mensaje</h3>
+                        <form class="contact-form" id="contactForm">
+                            <div class="form-group">
+                                <input type="text" id="name" name="name" placeholder=" " required />
+                                <label for="name" data-i18n="contact.form.name">Nombre</label>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="email" id="email" name="email" placeholder=" " required />
+                                <label for="email" data-i18n="contact.form.email">Email</label>
+                            </div>
+
+                            <div class="form-group">
+                                <textarea id="message" name="message" placeholder=" " required></textarea>
+                                <label for="message" data-i18n="contact.form.message">Mensaje</label>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                                <span data-i18n="contact.form.send">Enviar mensaje</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- EmailJS CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script is:inline>
+    const EMAILJS_CONFIG = {
+        publicKey: "BNFHXeoqNbcEWTA6f",
+        serviceId: "service_portfolio",
+        templateId: "template_portfolio",
+    };
+
+    let siteData = null;
+    let emailJSReady = false;
+
+    async function loadSiteData() {
+        try {
+            const res = await fetch("/site.json");
+            if (!res.ok) throw new Error("Site data not found");
+            siteData = await res.json();
+            const updates = [
+                ["whatsappContact", siteData.whatsapp ? `https://wa.me/${String(siteData.whatsapp).replace("+", "")}` : null],
+                ["linkedinContact", siteData.linkedin || null],
+                ["githubContact", siteData.github || null],
+            ];
+            updates.forEach(([id, url]) => {
+                const el = document.getElementById(id);
+                if (el && url) el.href = url;
+            });
+        } catch (err) {
+            console.error("Error loading site data:", err);
+        }
+    }
+
+    function initializeEmailJS() {
+        if (!window.emailjs) return false;
+        try {
+            window.emailjs.init({ publicKey: EMAILJS_CONFIG.publicKey });
+            emailJSReady = true;
+            return true;
+        } catch (error) {
+            console.error("EmailJS init error:", error);
+            return false;
+        }
+    }
+
+    function showMessage(message, type) {
+        const existing = document.querySelector(".form-message");
+        if (existing) existing.remove();
+        const el = document.createElement("div");
+        el.className = `form-message form-message--${type}`;
+        el.textContent = message;
+        const form = document.getElementById("contactForm");
+        if (form?.parentNode) {
+            form.parentNode.insertBefore(el, form);
+            setTimeout(() => el.remove(), 5000);
+        }
+    }
+
+    function resetButton(btn, original) {
+        setTimeout(() => {
+            if (btn) {
+                btn.textContent = original;
+                btn.disabled = false;
+            }
+        }, 2000);
+    }
+
+    function sendWithMailto(templateParams, submitButton, originalText) {
+        const targetEmail = siteData?.email || "lhidalgoa246@gmail.com";
+        const subject = `Mensaje de ${templateParams.from_name} - Portfolio`;
+        const body = `Nombre: ${templateParams.from_name}\nEmail: ${templateParams.from_email}\n\nMensaje:\n${templateParams.message}`;
+        const mailtoLink = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        try {
+            window.location.href = mailtoLink;
+            showMessage("Abriendo tu cliente de email...", "info");
+        } catch (error) {
+            console.error("Mailto failed:", error);
+            showMessage(`Error al enviar. Contacta directamente: ${targetEmail}`, "error");
+        }
+        resetButton(submitButton, originalText);
+    }
+
+    function sendWithEmailJS(templateParams, form, submitButton, originalText) {
+        window.emailjs
+            .send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, templateParams)
+            .then(() => {
+                showMessage("¡Mensaje enviado con éxito!", "success");
+                form.reset();
+            })
+            .catch((error) => {
+                console.error("EmailJS failed:", error);
+                sendWithMailto(templateParams, submitButton, originalText);
+            })
+            .finally(() => resetButton(submitButton, originalText));
+    }
+
+    function handleFormSubmit(event) {
+        event.preventDefault();
+        const form = event.target;
+        const submitButton = form.querySelector('button[type="submit"]');
+        const originalText = submitButton?.textContent || "Enviar mensaje";
+
+        const formData = new FormData(form);
+        const templateParams = {
+            from_name: formData.get("name"),
+            from_email: formData.get("email"),
+            message: formData.get("message"),
+            to_email: siteData?.email || "lhidalgoa246@gmail.com",
+        };
+
+        if (!templateParams.from_name || !templateParams.from_email || !templateParams.message) {
+            showMessage("Por favor, completa todos los campos.", "error");
+            return;
+        }
+
+        if (submitButton) {
+            submitButton.textContent = "Enviando...";
+            submitButton.disabled = true;
+        }
+
+        if (window.emailjs && emailJSReady) {
+            sendWithEmailJS(templateParams, form, submitButton, originalText);
+        } else {
+            sendWithMailto(templateParams, submitButton, originalText);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        await loadSiteData();
+        if (!initializeEmailJS()) {
+            const fallback = document.createElement("script");
+            fallback.src = "https://unpkg.com/@emailjs/browser@4/dist/email.min.js";
+            fallback.onload = () => initializeEmailJS();
+            document.head.appendChild(fallback);
+        }
+        const contactForm = document.getElementById("contactForm");
+        if (contactForm) contactForm.addEventListener("submit", handleFormSubmit);
+    });
+</script>
